@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>天气，每日英语，新闻简报</title>
+  <script src="jquery-3.3.1.min.js"></script>
+  <script src="bootstrap.min.css"></script>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="css-1.css">
+
+</head>
+
+<body>
+  <!-- 天气 iframe-->
+  <h2>天气预报</h2>
+  <div class="weather">
+    <iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=2&num=3" width="440" height="70"
+      frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+  </div>
+  <hr>
+  <!-- 每日英语卡片 -->
+  <h2>每日一句，英语卡片</h2>
+  <div class="card mb-3 dayen" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="" class="card-img" alt="..." id="img1">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title" id="content1">Card title</h5>
+          <p class="card-text" id="note1"></p>
+          <p class="card-text"><small class="text-muted" id="date1"> 3 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 新闻模块 -->
+  <h2>新闻简报</h2>
+  <div class="news">
+    <ul class="list-unstyled" id="aaa">
+    </ul>
+  </div>
+
+
+  <script>
+    //每日英语
+    $.get("http://api.tianapi.com/txapi/everyday/index?key=dbd37a5976f4dc95a17279e23d4b2f19",
+      function (data, status) {
+        // console.log(data);
+        // html 改变内容 ， append 添加 ，attr 属性更改 ，css css属性更改 ， 
+        // $('#result').append(JSON.stringify(data.newslist[0].id)); //JSON.stringify转换字符串
+        // $("#im").css("background-color","yellow");
+        $('#content1').html(data.newslist[0].content);
+        $('#note1').html(data.newslist[0].note);
+        $('#date1').html(data.newslist[0].date);
+        $("#img1").attr("src", data.newslist[0].imgurl);
+
+      });
+  </script>
+  <script>
+    //每日新闻
+    $.get("http://api.tianapi.com/bulletin/index?key=dbd37a5976f4dc95a17279e23d4b2f19",
+      function (data, status) {
+        // console.log(data);
+        // $('#title1').html(data.newslist[0].title);
+        // $('#digest1').html(data.newslist[0].digest);
+        // $('#mtime1').html(data.newslist[0].mtime);
+        // // $('#source1').html(data.newslist[0].source);
+        // $("#img2").attr("src", data.newslist[0].imgsrc);
+
+        var html = "";
+        $.each(data.newslist, function (i, item) { //这里参数
+          html += '<li class="media news-one">' +
+            '<img src=' + data.newslist[i].imgsrc + ' class="mr-3" alt="暂无图片">' +
+            '<div class="media-body">' +
+            '<h5 class="mt-0 mb-1" >' + data.newslist[i].title + '</h5>' +
+            '<div>' + data.newslist[i].digest + '</div>' +
+            '<br>' +
+            '<span class="mtime">' + data.newslist[i].mtime + '</span>' +
+            '</div>' +
+            '</li>' +
+            '<hr>'
+        });
+        $("#aaa").append(html);
+
+
+      });
+  </script>
+</body>
+
+</html>

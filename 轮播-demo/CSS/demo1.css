@@ -1,0 +1,206 @@
+.all {
+    margin: 0px;
+    width: 100%;
+    height: 1400px;
+    color: #fff;
+    /* background: linear-gradient(-45deg, #3d0101, #030bec, #c40293, #f8c7e3); */
+    background: linear-gradient(-45deg,red, yellow, green);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.nav {
+    height: 170px;
+    width: 100%;
+    /* background-color: burlywood; */
+}
+
+.nav-one {
+    width: 510px;
+    height: 120px;
+    margin: auto;
+    text-align: center;
+    /* background-color: red; */
+}
+
+.nav-one ul {
+    list-style: none;
+    float: left;
+    padding: 0px;
+}
+
+.nav-one ul li {
+    position: relative;
+}
+
+.nav-one ul li a,
+.nav-one ul li a:visited {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    width: 100px;
+    height: 30px;
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgb(255, 255, 255, 0.3);
+    border-width: 0;
+    /* background: rgba(255, 255, 255, 0.1); */
+    line-height: 30px;
+    font-size: 20px;
+    transition: all 0.5s;
+}
+
+.nav-one ul li ul {
+    display: none;
+
+}
+
+.nav-one ul li:hover a {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-width: 0.2px 0 0.2px 0;
+}
+
+.nav-one ul li:hover ul {
+    display: block;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 105px;
+    line-height: 25px;
+}
+
+.nav-one ul li:hover ul li a {
+    display: block;
+    /* background: #e23105; */
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-one ul li:hover ul li a:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+}
+
+.nav-two {
+    float: left;
+}
+
+.main-one {
+    float: left;
+}
+
+
+/* 轮播尺寸 */
+.swiper-container {
+    width: 100%;
+    height: 500px;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    /* 指针变成小手 */
+    /* cursor: pointer; */
+}
+
+.swiper-container {
+    /* --swiper-theme-color: rgba(54, 143, 255, 0.8) 设置swiper主题色 */
+    /* 设置分页器颜色 */
+    --swiper-pagination-color: rgb(255, 255, 255);
+
+    /* 设置按钮颜色 */
+    --swiper-navigation-color: rgba(233, 235, 236, 0.6);
+    /* 设置按钮大小 */
+    --swiper-navigation-size: 60px;
+}
+
+.swiper-button-hover:hover {
+    --swiper-navigation-size: 65px;
+    --swiper-navigation-color: rgba(255, 255, 255, );
+}
+
+.jumbotron {
+    background-color: unset;
+}
+
+.card {
+    background-color: unset;
+    border: unset;
+}
+.btn-link {
+    color: white;
+    font-size: 20px;
+}
+
+
+.cards {
+    margin: auto;
+    width: 1200px;
+    height: 800px;
+    /* background-color: bisque; */
+}
+
+.card-img-overlay {
+    height: 0px;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    transition: all 1s;
+}
+
+.card-img:hover {
+    transform: scale(1.4);
+}
+
+.card-one {
+    overflow: hidden;
+    float: left;
+    margin-top: 50px;
+    width: 500px;
+    height: 250px;
+    border-radius: 20px;
+}
+
+.card-two {
+    overflow: hidden;
+    float: right;
+    margin-top: 125px;
+    width: 500px;
+    height: 250px;
+    border-radius: 20px;
+}
+
+.card-three {
+    overflow: hidden;
+    float: left;
+    margin-top: 125px;
+    width: 500px;
+    height: 250px;
+    border-radius: 20px;
+}
+
+.card-four {
+    overflow: hidden;
+    float: right;
+    margin-top: 125px;
+    width: 500px;
+    height: 250px;
+    border-radius: 20px;
+}

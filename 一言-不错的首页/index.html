@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一言一语</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script>
+    <link href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css-1.css">
+   
+</head>
+
+<body class="body">
+    <div class="background"> </div>
+    
+    <div class="loves">
+        <span id="loves"></span>
+    </div>
+
+    <div id="player"></div>
+
+    <div class="main" id="main">
+        <div class="span1">『 </div>
+        <div id="content" class="content"></div>
+        <div class="span2"> 』</div>
+        <br><br>
+        <div class="foot">
+            <span id="foot"></span>
+        </div>
+    </div>
+
+
+    <!-- aplayer播放器 -->
+    <script>
+        const ap = new APlayer({
+            container: document.getElementById('player'),
+            fixed: true,
+            preload: 'metadata',
+            autoplay: true,
+            mini: true,
+            // theme: '#DD001B',
+            audio: [{
+                    name: '烟袋斜街',
+                    artist: '接个吻，开一枪',
+                    url: 'https://api.imjad.cn/cloudmusic/?type=song&id=464863017&br=128000&raw=true',
+                    cover: 'http://p1.music.126.net/tTRaVql9l0ZwQ2Y3oSZ9pQ==/109951162874838750.jpg',
+                    // lrc: 'lrc1.lrc',
+                    // theme: '#ebd0c2'
+                },
+                //     {
+                //         name: 'name2',
+                //         artist: 'artist2',
+                //         url: 'url2.mp3',
+                //         cover: 'cover2.jpg',
+                //         lrc: 'lrc2.lrc',
+                //         theme: '#46718b'
+                //     }
+            ]
+        });
+    </script>
+    <script>
+        // 模块跳动
+        $(document).ready(function () {
+            setInterval(function () {
+                $("#main").animate({
+                    top: "-=35"
+                }, 200).animate({
+                    top: "+=35"
+                }, 150).animate({
+                    top: "-=15"
+                }, 120).animate({
+                    top: "+=15"
+                }, 100)
+            }, 5000);
+        });
+    </script>
+
+    <script>
+        // 土味情话
+        $.get("https://api.uomg.com/api/rand.qinghua?format=json",
+            function (data, status) {
+                // console.log(data);
+                $('#loves').html(data.content);
+
+            });
+        // 网易云音乐
+        $.get("https://api.imjad.cn/cloudmusic/?type=playlist&id=4934178601&br=128000",
+            function (data, status) {
+                console.log(data);
+                // console.log(data.lrv);
+        // console.log(data.code);
+        // console.log(data.picurl);
+        // console.log(data.name);
+        // $("#audio").attr("src", data.url);
+        // $('#mtime1').html(data.newslist[0].mtime);
+        // $('#source1').html(data.newslist[0].source);
+        });
+
+        // 一言 
+        //循环调用
+        $(document).ready(function () {
+            myfunction()
+            setInterval(function () {
+                myfunction()
+            }, 5000);
+        });
+
+        function myfunction() {
+            //原方法
+            $.ajax({
+                type: 'GET',
+                url: 'https://v1.hitokoto.cn',
+                dataType: 'json',
+                success(data) {
+                    // console.log(data);
+                    $('#content').html(data.hitokoto);
+                    if (data.from_who != null) {
+                        $('#foot').html("————" + data.from_who + "「" + data.from + "」");
+                    } else {
+                        $('#foot').html("————" + "「" + data.from + "」");
+                    }
+                },
+            })
+        }
+    </script>
+</body>
+
+</html>

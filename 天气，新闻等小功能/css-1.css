@@ -1,0 +1,33 @@
+h2 {
+    text-align: center;
+    color: deepskyblue;
+}
+
+.weather {
+    width: 500px;
+    margin: 0 auto;
+}
+
+.dayen {
+    margin: 0 auto;
+}
+
+.news {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.news-one {
+    margin: 10px;
+}
+
+.mr-3,
+.mx-3g {
+    width: 250px;
+    height: 150px;
+}
+
+.mtime {
+
+    float: right;
+}
