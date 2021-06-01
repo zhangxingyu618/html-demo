@@ -1,0 +1,39 @@
+.body {
+    padding: 50px;
+}
+
+.layui-btn-sm {
+    line-height: normal;
+    font-size: 12.5px;
+}
+
+.layui-table-view .layui-table-body {
+    min-height: 256px;
+}
+
+.layui-table-cell .layui-input.layui-unselect {
+    height: 30px;
+    line-height: 30px;
+}
+
+.table-overlay .layui-table-view,
+.table-overlay .layui-table-box,
+.table-overlay .layui-table-body {
+    overflow: visible;
+}
+
+.table-overlay .layui-table-cell {
+    height: auto;
+    overflow: visible;
+}
+
+/*文本对齐方式*/
+.text-center {
+    text-align: center;
+}
+
+/*文本对齐方式*/
+.text-left {
+    text-align: left;
+    font-weight: 200;
+}

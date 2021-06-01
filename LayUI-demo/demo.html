@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="layui/css/layui.css" />
+    <link rel="stylesheet" href="style.css">
+    <script src="layui/layui.js"></script>
+</head>
+
+<body class="body">
+    <div class="layui-col-md10" style="margin: 0 auto; float: none;">
+        <div class="layui-card">
+            <div id="toolbar" class="layui-form-item">
+                <button type="button" class="layui-btn layui-btn-normal" data-type="addRow">
+                    添加
+                </button>
+            </div>
+            <!-- 整个表格容器的宽度 tableDiv -->
+            <div id="tableDiv" class="table-overlay">
+                <table id="dataTable" lay-filter="dataTable" class="layui-hide"></table>
+            </div>
+            <div class="text-center">
+                <button class="layui-btn" lay-submit="" lay-filter="formDemo">提交</button>
+            </div>
+        </div>
+        <!--结果输出-->
+        <div class="layui-card">
+            <div class="layui-card-header">保存输出</div>
+            <div class="layui-card-body layui-text">
+                <div class="layui-elem-quote layui-quote-nm">
+                    <pre id="jsonResult"><span class="layui-word-aux">请点击“提交”后查看输出信息……</span></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var typeList = new Array();
+        var newLists = new Array();
+
+        //数据格式 
+        var lists = [{
+            id: 1,
+            name: "张三",
+            phone: "13456"
+        }]
+
+        //所用到的layui模块
+        layui.use(['jquery', 'table', 'form', 'layer'], function () {
+            var $ = layui.$;
+            var form = layui.form; //表单
+            var layer = layui.layer; //弹窗
+            var table = layui.table; //表格
+            //数据表格实例化
+            var tableWidth = $("#tableDiv").width();
+            var layTableId = "layTable";
+
+
+            // table模块
+            var tableMod = table.render({
+                elem: '#dataTable',
+                id: layTableId,
+                data: lists,
+                width: tableWidth,
+                // loading: true,   //分页
+                // page: {theme: '#c00'},
+                limit: 10000,
+                even: false,
+                cols: [
+                    [{
+                            field: 'id',
+                            title: '序号',
+                            edit: 'text'
+                        }, {
+                            field: 'name',
+                            title: '姓名',
+                            edit: 'text'
+                        },
+                        {
+                            field: 'phone',
+                            title: '电话',
+                            edit: 'text'
+                        },
+                        {
+                            field: 'operation',
+                            title: '操作',
+                            templet: function (d) {
+                                return '<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" lay-id="' +
+                                    d.id +
+                                    '"><i class="layui-icon layui-icon-delete"></i>移除</a>';
+                            }
+                        }
+                    ]
+                ],
+                done(res, curr, count) {
+                    lists = res.data;
+                    window.count = count
+                }
+            });
+            //定义事件集合
+            var active = {
+                //添加事件
+                addRow: function () {
+                    //添加一行
+                    var oldData = table.cache[layTableId];
+                    console.log(oldData);
+                    var newRow = {
+                        id: window.count + 1,
+                        name: "",
+                        phone: ""
+                    };
+                    oldData.push(newRow);
+                    tableMod.reload({ //重载表格
+                        data: oldData
+                    });
+                    form.render();
+                },
+                //删除事件
+                remove: function () {
+                    var oldData = table.cache[layTableId];
+                    for (var i = 0, row; i < oldData.length; i++) {
+                        row = oldData[i];
+                        if (!row || !row.id) {
+                            //删除一项
+                            oldData.splice(i, 1);
+                        }
+                        continue;
+                    }
+                    tableMod.reload({
+                        data: oldData
+                    });
+                }
+            }
+
+            //激活事件
+            var activeByType = function (type, arg) {
+                if (arguments.length === 2) {
+                    active[type] ? active[type].call(this, arg) : '';
+                } else {
+                    active[type] ? active[type].call(this) : '';
+                }
+            }
+
+            //提交按钮事件
+            $('.layui-btn[data-type]').on('click', function () {
+                var type = $(this).data('type');
+                activeByType(type);
+            });
+
+            //监听工具条
+            table.on('tool(dataTable)', function (obj) {
+                //获得当前行 tr 的DOM对象;
+                var data = obj.data,
+                    event = obj.event,
+                    tr = obj.tr;
+                //  console.log(data);
+                if (event == "del") {
+                    layer.confirm('真的删除行么？', function (index) {
+                        //删除对应行（tr）的DOM结构，并更新缓存
+                        obj.del();
+                        layer.close(index);
+                        activeByType('remove');
+                    });
+                }
+            });
+
+            form.on('submit(formDemo)', function (data) {
+                var oldData = table.cache[layTableId];
+                // console.log(oldData);
+                for (var i = 0, row; i < oldData.length; i++) {
+                    row = oldData[i];
+                    if (!row.id) {
+                        //提示
+                        layer.msg("检查每一行，请输入用户序号！", {
+                            icon: 5
+                        });
+                        return false;
+                    }
+                    if (!row.name) {
+                        //提示
+                        layer.msg("检查每一行，请输入用户姓名！", {
+                            icon: 5
+                        });
+                        return false;
+                    }
+                    if (!row.phone) {
+                        //提示
+                        layer.msg("检查每一行，请输入用户号码！", {
+                            icon: 5
+                        });
+                        return false;
+                    }
+                }
+                //使用JSON.stringify() 格式化输出JSON字符串	
+                document.getElementById("jsonResult").innerHTML = JSON.stringify(table.cache[
+                    layTableId], null, 2);
+
+                return false;
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

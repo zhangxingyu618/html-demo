@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="echarts.js"></script>
+    <script src="macarons.js"></script>
+
+</head>
+
+<body>
+
+    <div id="main" style="width: 500px;height: 500px;"></div>
+
+
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main'), 'macarons');
+        var rent = []
+        $.get('ganji.json', function (res) {
+            console.log(typeof(rent))
+            console.log(res.data)
+            // var cars = [
+            //     "Saab",
+            //     "Volvo",
+            //     "BMW"
+            // ];
+
+            // console.log(cars)
+            // for(i=1,i<res.legend){
+                
+            // }
+            res.data.forEach(element => {
+                window.rent.push(parseInt(element.rent))
+
+                // rent.push({
+                //         rent: parseInt(element.rent),
+                       
+                //     });
+                // window.rent = rent
+                // console.log(element.rent)
+                // console.log(typeof (parseInt(element.rent)))
+            });
+        })
+        
+        console.log(rent)
+        
+        // 指定图表的配置项和数据
+        var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {
+                        show: true
+                    },
+                    dataView: {
+                        show: true,
+                        readOnly: false
+                    },
+                    magicType: {
+                        show: true,
+                        type: ['line', 'bar']
+                    },
+                    restore: {
+                        show: true
+                    },
+                    saveAsImage: {
+                        show: true
+                    }
+                }
+            },
+            calculable: true,
+            legend: {
+                data: ['蒸发量', '降水量', '平均温度']
+            },
+            xAxis: [{
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+            }],
+            yAxis: [{
+                    type: 'value',
+                    name: '水量',
+                    axisLabel: {
+                        formatter: '{value} ml'
+                    }
+                },
+                {
+                    type: 'value',
+                    name: '温度',
+                    axisLabel: {
+                        formatter: '{value} °C'
+                    }
+                }
+            ],
+            series: [
+
+                {
+                    name: '蒸发量',
+                    type: 'bar',
+                    data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+                },
+                {
+                    name: '降水量',
+                    type: 'bar',
+                    data: rent
+                },
+                {
+                    name: '平均温度',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+                }
+            ]
+        };
+
+
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+
+</body>
+
+</html>
